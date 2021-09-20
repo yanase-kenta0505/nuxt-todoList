@@ -28,6 +28,9 @@
         </v-form>
       </v-card-text>
     </v-card>
+    <nuxt-link to="login" style="width:200px;margin:20px auto"
+      >ログインページはこちら</nuxt-link
+    >
   </v-app>
 </template>
 
