@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-card class="mx-auto" width="344px">
+    <v-card class="mx-auto mt-10" width="344px">
       <v-card-title>
         <h1 class="display-1">ログイン</h1>
       </v-card-title>
@@ -22,11 +22,16 @@
             v-model="password"
           />
           <v-card-actions>
-            <v-btn class="info">送信</v-btn>
+            <v-btn class="info" @click="login">送信</v-btn>
           </v-card-actions>
         </v-form>
       </v-card-text>
     </v-card>
+    <nuxt-link
+      to="signUp"
+      style="width:150px;margin:20px auto;text-align:center"
+      >新規登録はこちら</nuxt-link
+    >
   </v-app>
 </template>
 <script>
@@ -41,6 +46,15 @@ export default {
         v => /.+@.+/.test(v) || "E-mail must be valid"
       ]
     };
+  },
+  methods: {
+    login() {
+      this.$store.dispatch("login/login", {
+        mail: this.mail,
+        password: this.password,
+        router: this.$router
+      });
+    }
   }
 };
 </script>
