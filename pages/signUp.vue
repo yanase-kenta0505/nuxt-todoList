@@ -51,15 +51,31 @@ export default {
   computed: {
     errorMessage() {
       return this.$store.state.signUp.errorMessage;
+    },
+    usedMail() {
+      return this.$store.getters["signUp/mails"].includes(this.mail);
+    },
+    usedPassword() {
+      return this.$store.getters["signUp/passwords"].includes(this.password);
     }
   },
   methods: {
     register() {
-      this.$store.dispatch("signUp/register", {
-        mail: this.mail,
-        password: this.password,
-        router: this.$router
-      });
+      console.log(this.usedMail, this.usedPassword);
+      if (this.usedMail === true || this.usedPassword === true) {
+        console.log(
+          "このメールアドレス、パスワードは両方もしくは片方がすでに使われています"
+        );
+        this.mail = "";
+        this.password = "";
+        return;
+      } else {
+        this.$store.dispatch("signUp/register", {
+          mail: this.mail,
+          password: this.password,
+          router: this.$router
+        });
+      }
     }
   }
 };
