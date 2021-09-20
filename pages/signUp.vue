@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-card class="mx-auto" width="344px">
+    <v-card class="mx-auto mt-10" width="344px">
       <v-card-title>
         <h1 class="display-1">新規登録</h1>
       </v-card-title>
