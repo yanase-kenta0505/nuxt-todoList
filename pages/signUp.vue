@@ -24,6 +24,7 @@
           <v-card-actions>
             <v-btn class="info" @click="register">登録</v-btn>
           </v-card-actions>
+          <p style="color:red">{{ errorMessage }}</p>
         </v-form>
       </v-card-text>
     </v-card>
@@ -43,12 +44,18 @@ export default {
       ]
     };
   },
+
+  computed: {
+    errorMessage() {
+      return this.$store.state.signUp.errorMessage;
+    }
+  },
   methods: {
     register() {
       this.$store.dispatch("signUp/register", {
         mail: this.mail,
         password: this.password,
-        router:this.$router
+        router: this.$router
       });
     }
   }
