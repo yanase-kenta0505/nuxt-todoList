@@ -10,7 +10,7 @@ import firebase from "~/plugins/firebase";
 export default {
   methods:{
     signUpPage(){
-      this.$router.push('/signUp')
+      this.$router.push('/login')
     }
   }
 };

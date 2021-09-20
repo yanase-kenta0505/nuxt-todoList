@@ -1,5 +1,11 @@
 export default function({ store, route, redirect }) {
-  if (route.name !== "login" && route.fullPath !== "/signUp") {
+  if (
+    // storeのstateを設定しておいて条件分岐
+    store.getters["login/userUid"] === "" &&
+    route.name !== "login" &&
+    // 例外として表示可能なページを指定
+    route.fullPath !== "/signUp"
+  ) {
     redirect("/login");
   }
 }
