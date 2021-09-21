@@ -10,10 +10,10 @@ export const actions = {
       .auth()
       .signInWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-          console.log(res)
+        console.log(res);
         console.log(res.user.uid);
         context.commit("setUid", res.user.uid);
-        key.router.push("/");
+        key.router.push("/todo");
       })
       .catch(() => {
         alert("新規登録をしてください。");
@@ -28,7 +28,7 @@ export const mutations = {
 };
 
 export const getters = {
-    userUid(state){
-        return state.uid
-    }
-}
+  userUid(state) {
+    return state.uid;
+  }
+};
