@@ -55,6 +55,9 @@ export default {
         router: this.$router
       });
     }
+  },
+  created() {
+    console.log(this.$store.state.login.login);
   }
 };
 </script>

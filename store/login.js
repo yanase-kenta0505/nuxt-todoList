@@ -1,7 +1,7 @@
 import firebase from "~/plugins/firebase";
 
 export const state = () => ({
-  uid: ""
+  login: false
 });
 
 export const actions = {
@@ -10,10 +10,7 @@ export const actions = {
       .auth()
       .signInWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-        console.log(res);
-        console.log(res.user.uid);
-        context.commit("setUid", res.user.uid);
-        key.router.push("/todo");
+        context.commit("login", key.router);
       })
       .catch(() => {
         alert("新規登録をしてください。");
@@ -22,13 +19,14 @@ export const actions = {
 };
 
 export const mutations = {
-  setUid(state, uid) {
-    state.uid = uid;
+  login(state, router) {
+    state.login = true;
+    router.push("/todo");
   }
 };
 
 export const getters = {
   userUid(state) {
-    return state.uid;
+    return state.login;
   }
 };
