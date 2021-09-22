@@ -5,12 +5,21 @@ export const state = () => ({
 });
 
 export const actions = {
+  stateChange(context) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        context.commit("login");
+      } else {
+        context.commit("signOut");
+      }
+    });
+  },
   login(context, key) {
     firebase
       .auth()
       .signInWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-        context.commit("login", key.router);
+        key.router.push("/todo");
       })
       .catch(() => {
         alert("新規登録をしてください。");
@@ -20,8 +29,12 @@ export const actions = {
 
 export const mutations = {
   login(state, router) {
+    console.log(state.login);
     state.login = true;
-    router.push("/todo");
+  },
+  signOut(state) {
+    console.log(state.login);
+    state.login = false;
   }
 };
 

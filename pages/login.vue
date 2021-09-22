@@ -57,7 +57,7 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state.login.login);
+    this.$store.dispatch("login/stateChange");
   }
 };
 </script>
