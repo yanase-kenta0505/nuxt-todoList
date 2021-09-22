@@ -42,11 +42,19 @@
     >
       <v-container style="height: 1000px;"></v-container>
     </v-sheet>
+    <v-btn @click="signout">signout</v-btn>
   </v-card>
 </template>
 
 <script>
 export default {
- 
+  methods: {
+    signout() {
+      this.$store.dispatch("todo/signout", {
+        router: this.$router,
+        loginState: this.$store.state.login.login
+      });
+    }
+  }
 };
 </script>
