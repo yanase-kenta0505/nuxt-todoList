@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch("login/login", {
+      this.$store.dispatch("login", {
         mail: this.mail,
         password: this.password,
         router: this.$router
@@ -57,7 +57,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("login/stateChange");
+    this.$store.dispatch("stateChange");
   }
 };
 </script>
