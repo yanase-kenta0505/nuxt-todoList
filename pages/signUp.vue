@@ -50,13 +50,13 @@ export default {
 
   computed: {
     errorMessage() {
-      return this.$store.state.signUp.errorMessage;
+      return this.$store.state.errorMessage;
     },
     usedMail() {
-      return this.$store.getters["signUp/mails"].includes(this.mail);
+      return this.$store.getters.mails.includes(this.mail);
     },
     usedPassword() {
-      return this.$store.getters["signUp/passwords"].includes(this.password);
+      return this.$store.getters.passwords.includes(this.password);
     }
   },
   methods: {
@@ -70,7 +70,7 @@ export default {
         this.password = "";
         return;
       } else {
-        this.$store.dispatch("signUp/register", {
+        this.$store.dispatch("register", {
           mail: this.mail,
           password: this.password,
           router: this.$router

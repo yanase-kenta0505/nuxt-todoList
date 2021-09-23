@@ -50,7 +50,7 @@
 export default {
   methods: {
     signout() {
-      this.$store.dispatch("todo/signout", {
+      this.$store.dispatch("signout", {
         router: this.$router,
         loginState: this.$store.state.login.login
       });
