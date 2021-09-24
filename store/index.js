@@ -3,15 +3,16 @@ import firebase from "~/plugins/firebase";
 export const state = () => ({
   login: false,
   errorMessage: "",
-  mails: [],
-  passwords: []
+  uid: ""
+  // mails: [],
+  // passwords: []
 });
 
 export const actions = {
   stateChange(context) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        context.commit("login");
+        context.commit("login", user.uid);
       } else {
         context.commit("signOut");
       }
@@ -22,24 +23,24 @@ export const actions = {
       .auth()
       .signInWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-        key.router.push("/todo");
+        key.router.push({ name: "users-id", params: { id: this.state.uid } });
       })
       .catch(() => {
         alert("新規登録をしてください。");
       });
   },
-  signout(context, key) {
+  signOut(context, router) {
     firebase
       .auth()
       .signOut()
       .then(() => {
-        console.log("signout");
-        context.commit("signout", key);
+        console.log("signOut");
+        context.commit("signOut", router);
       });
   },
   register(context, key) {
     console.log(key);
-    context.commit("blockRegister", key);
+    // context.commit("blockRegister", key);
     firebase
       .auth()
       .createUserWithEmailAndPassword(key.mail, key.password)
@@ -54,28 +55,23 @@ export const actions = {
 };
 
 export const mutations = {
-  login(state, router) {
+  login(state, uid) {
     console.log(state.login);
     state.login = true;
+    state.uid = uid;
   },
-  signOut(state) {
-    console.log(state.login);
+  signOut(state, router) {
     state.login = false;
-  },
-  signout(state, key) {
-    console.log(key.loginState);
-    key.loginState = false;
-    console.log(key.loginState);
-    key.router.push("/login");
+    router.push("/login");
   },
   error(state, error) {
     state.errorMessage = error;
-  },
-  blockRegister(state, key) {
-    state.mails.push(key.mail);
-    state.passwords.push(key.password);
-    console.log(state.mails, state.passwords);
   }
+  // blockRegister(state, key) {
+  //   state.mails.push(key.mail);
+  //   state.passwords.push(key.password);
+  //   console.log(state.mails, state.passwords);
+  // }
 };
 
 export const getters = {
