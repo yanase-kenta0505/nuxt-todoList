@@ -61,21 +61,21 @@ export default {
   },
   methods: {
     register() {
-      console.log(this.usedMail, this.usedPassword);
-      if (this.usedMail === true || this.usedPassword === true) {
-        console.log(
-          "このメールアドレス、パスワードは両方もしくは片方がすでに使われています"
-        );
-        this.mail = "";
-        this.password = "";
-        return;
-      } else {
+      // console.log(this.usedMail, this.usedPassword);
+      // if (this.usedMail === true || this.usedPassword === true) {
+      //   console.log(
+      //     "このメールアドレス、パスワードは両方もしくは片方がすでに使われています"
+      //   );
+      //   this.mail = "";
+      //   this.password = "";
+      //   return;
+      // } else {
         this.$store.dispatch("register", {
           mail: this.mail,
           password: this.password,
           router: this.$router
         });
-      }
+      // }
     }
   }
 };
