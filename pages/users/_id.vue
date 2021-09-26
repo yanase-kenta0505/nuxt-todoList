@@ -51,7 +51,9 @@
                   <v-icon v-text="item.icon"></v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title v-text="item.text"></v-list-item-title>
+                  <!-- <v-list-item-title v-text="items[0].text" @click="hello"></v-list-item-title> -->
+                  
+                  <v-list-item-title v-text="item.text" @click="event(i)"></v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list-item-group>
@@ -130,6 +132,15 @@ export default {
   methods: {
     dialogStateChange() {
       this.dialogState = !this.dialogState;
+    },
+    event(i){
+      console.log(i)
+      if(i === 0){
+        console.log(this.$router)
+        this.$store.dispatch('signOut', this.$router);
+      }else{
+        console.log('hello')
+      }
     }
   }
 };
@@ -155,3 +166,5 @@ h2 {
   padding-left: 20px;
 }
 </style>
+
+
