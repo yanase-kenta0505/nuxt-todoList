@@ -35,7 +35,8 @@ export const actions = {
       .signOut()
       .then(() => {
         console.log("signOut");
-        context.commit("signOut", router);
+        context.commit("signOut");
+        router.push("/login");
       });
   },
   register(context, key) {
@@ -45,7 +46,7 @@ export const actions = {
       .auth()
       .createUserWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-        key.router.push("/login");
+        key.router.push("../users/login");
       })
       .catch(error => {
         console.log(error);
@@ -60,9 +61,8 @@ export const mutations = {
     state.login = true;
     state.uid = uid;
   },
-  signOut(state, router) {
+  signOut(state) {
     state.login = false;
-    router.push("/login");
   },
   error(state, error) {
     state.errorMessage = error;
