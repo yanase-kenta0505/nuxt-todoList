@@ -36,13 +36,9 @@
         <v-spacer></v-spacer>
 
         <div class="d-flex flex-column" id="dialog-box">
-          <v-btn icon @click="dialogStateChange">
-            <v-icon v-show="!dialogState" class="mx-auto"
-              >mdi-dots-vertical</v-icon
-            >
-            <v-icon v-show="dialogState" class="mx-auto"
-              >mdi-close-thick</v-icon
-            >
+          <v-btn icon @click="dialogStateChange" class="ml-auto">
+            <v-icon v-show="!dialogState">mdi-dots-vertical</v-icon>
+            <v-icon v-show="dialogState">mdi-close-thick</v-icon>
           </v-btn>
 
           <v-card v-show="dialogState" max-width="200" tile>
@@ -68,10 +64,10 @@
         </div>
       </v-app-bar>
 
-      <v-card width="100%" height="500px" id="todo-container" elevation="20">
+      <v-card width="100%" id="todo-container" elevation="20" class="pb-10 ">
         <div id="todo-box" class="d-flex flex-row ml-10">
           <div>
-            <v-text-field label="Todo-Item" v-model="todoItem"></v-text-field>
+            <v-text-field label="Todo-Item" v-model="todoItem" counter maxlength="10"></v-text-field>
           </div>
           <div class="ml-10">
             <v-menu
@@ -85,7 +81,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="date"
-                  label="Picker without buttons"
+                  label="Dedline"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -101,6 +97,25 @@
           <div class="ml-10">
             <v-btn color="#7986" id="addBtn" @click="addTodo">Add</v-btn>
           </div>
+        </div>
+        <div id="todo-cards" class="mt-5 d-flex flex-wrap">
+          <v-card
+            v-for="(todo, index) in todos"
+            :key="todo.id"
+            class="mb-5 d-flex ml-10"
+            width="40%"
+            height="50px"
+            :class="{ done: todos[index].done === true }"
+          >
+            <v-checkbox
+              class="check mr-5 ml-2"
+              @click="update(index)"
+              :checked="todos[index].done"
+            ></v-checkbox>
+            <p id="todo-card-text">
+              [{{ todo.todo }}]<span class="ml-5">{{ todo.date }}</span>
+            </p>
+          </v-card>
         </div>
       </v-card>
 
@@ -149,6 +164,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   data() {
     return {
@@ -165,6 +181,7 @@ export default {
         { title: "Home", icon: "mdi-human-male-female-child" }
       ],
       todoItem: "",
+      done: false,
       dialog: false,
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
@@ -194,10 +211,39 @@ export default {
     },
     addTodo() {
       console.log(this.todoItem);
-      // this.$store.dispatch("db/addTodo", this.todoItem);
+      // console.log(this.date);
+      console.log(moment(this.date).format("YYYY-MM-DD"));
+      // console.log(moment(Date.now()).format("YYYY-MM-DD"));
+      if (this.todoItem === "") {
+        return;
+      } else {
+        this.$store.dispatch("db/addTodo", {
+          todoItem: this.todoItem,
+          date: this.date,
+          done: this.done
+        });
+      }
       this.todoItem = "";
-      console.log(this.date);
-      
+      this.date = moment(Date.now()).format("YYYY-MM-DD");
+    },
+    update(index) {
+      console.log(index);
+      this.$store.dispatch("db/update", {
+        id: this.ids[index],
+        done: this.todos[index].done
+      });
+    }
+  },
+  created() {
+    this.$store.dispatch("db/snapshot");
+    console.log(this.todos);
+  },
+  computed: {
+    todos() {
+      return this.$store.getters["db/todos"];
+    },
+    ids() {
+      return this.$store.getters["db/ids"];
     }
   }
 };
@@ -241,5 +287,28 @@ h2 {
 #addBtn {
   margin-top: 10px;
   margin-left: 20px;
+}
+
+#todo-cards {
+  widows: 80%;
+}
+
+#todo-card-text {
+  height: 100%;
+  text-align: center;
+  line-height: 50px;
+}
+
+.check {
+  width: 30px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  padding-top: 13px;
+}
+
+.done {
+  background-color: pink;
+  opacity: 0.3;
 }
 </style>
