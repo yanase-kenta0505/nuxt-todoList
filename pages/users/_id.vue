@@ -101,7 +101,7 @@
         <div id="todo-cards" class="mt-5 d-flex flex-wrap">
           <v-card
             v-for="(todo, index) in todos"
-            :key="todo.id"
+            :key="todo.todo"
             class="mb-5 d-flex ml-10"
             width="40%"
             height="50px"
