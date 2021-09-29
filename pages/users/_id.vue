@@ -104,8 +104,11 @@
             :key="todo.todo"
             class="mb-5 d-flex ml-10"
             width="40%"
+            max-width="380px"
+            min-width="300px"
             height="50px"
             :class="{ done: todos[index].done === true }"
+            id="todoItem"
           >
             <v-checkbox
               class="check mr-5 ml-2"
@@ -115,6 +118,7 @@
             <p id="todo-card-text">
               [{{ todo.todo }}]<span class="ml-5">{{ todo.date }}</span>
             </p>
+            <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
           </v-card>
         </div>
       </v-card>
@@ -232,6 +236,9 @@ export default {
         id: this.ids[index],
         done: this.todos[index].done
       });
+    },
+    deleteItem(index){
+      this.$store.dispatch('db/deleteItem', this.ids[index]);
     }
   },
   created() {
@@ -308,7 +315,15 @@ h2 {
 }
 
 .done {
-  background-color: pink;
   opacity: 0.3;
+}
+
+#todoItem{
+  position: relative;
+}
+#closeIcon{
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 </style>
