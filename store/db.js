@@ -67,6 +67,9 @@ export const actions = {
     todoRef.doc(updateItem.id).update({
       done: !updateItem.done
     });
+  },
+  deleteItem(context, id) {
+    todoRef.doc(id).delete();
   }
 };
 
