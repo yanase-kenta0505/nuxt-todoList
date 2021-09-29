@@ -67,5 +67,7 @@ export default {
 
   router: {
     middleware: "examination"
-  }
+  },
+
+  
 };
