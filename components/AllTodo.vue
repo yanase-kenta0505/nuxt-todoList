@@ -59,6 +59,7 @@
           <p id="todo-card-text">
             [{{ todo.todo }}]<span class="ml-5">{{ todo.date }}</span>
           </p>
+          <edit-dialog id="editDialog" :koreageru="index" />
           <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
         </v-card>
       </div>
@@ -68,7 +69,9 @@
 
 <script>
 import moment from "moment";
+import EditDialog from "./EditDialog.vue";
 export default {
+  components: { EditDialog },
   data() {
     return {
       todoItem: "",
@@ -178,6 +181,13 @@ export default {
 #closeIcon {
   position: absolute;
   right: 10px;
+  top: 10px;
+}
+#editDialog {
+  height: 24px;
+  width: 24px;
+  position: absolute;
+  right: 50px;
   top: 10px;
 }
 </style>
