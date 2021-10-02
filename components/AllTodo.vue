@@ -54,7 +54,7 @@
           <v-checkbox
             class="check mr-5 ml-2"
             @click="update(index)"
-            :checked="todos[index].done"
+            v-model="checked[index]"
           ></v-checkbox>
           <p id="todo-card-text">
             [{{ todo.todo }}]<span class="ml-5">{{ todo.date }}</span>
@@ -82,7 +82,8 @@ export default {
         .substr(0, 10),
       menu: false,
       modal: false,
-      menu2: false
+      menu2: false,
+      checked: []
     };
   },
 
@@ -97,14 +98,21 @@ export default {
 
   created() {
     this.$store.dispatch("db/snapshot");
-    console.log(this.todos);
+    const checked = [];
+    this.todos.forEach(todo => {
+      // console.log(todo.done);
+      checked.push(todo.done);
+    });
+    // console.log(checked);
+    this.checked = checked;
+    console.log(this.checked);
   },
 
   methods: {
     addTodo() {
-      console.log(this.todoItem);
+      // console.log(this.todoItem);
       // console.log(this.date);
-      console.log(moment(this.date).format("YYYY-MM-DD"));
+      // console.log(moment(this.date).format("YYYY-MM-DD"));
       // console.log(moment(Date.now()).format("YYYY-MM-DD"));
       if (this.todoItem === "") {
         return;
@@ -119,7 +127,8 @@ export default {
       this.date = moment(Date.now()).format("YYYY-MM-DD");
     },
     update(index) {
-      console.log(index);
+      console.log(this.checked);
+      // console.log(this.todos[index].done);
       this.$store.dispatch("db/update", {
         id: this.ids[index],
         done: this.todos[index].done
