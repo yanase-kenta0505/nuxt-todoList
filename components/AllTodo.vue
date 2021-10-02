@@ -39,7 +39,7 @@
           <v-btn color="#7986" id="addBtn" @click="addTodo">Add</v-btn>
         </div>
       </div>
-      <div id="todo-cards" class="mt-5 d-flex flex-wrap">
+      <draggable tag="div" id="todo-cards" class="mt-5 d-flex flex-wrap">
         <v-card
           v-for="(todo, index) in todos"
           :key="todo.todo"
@@ -62,7 +62,7 @@
           <edit-dialog id="editDialog" :koreageru="index" />
           <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
         </v-card>
-      </div>
+      </draggable>
     </v-card>
   </v-app>
 </template>
@@ -70,8 +70,9 @@
 <script>
 import moment from "moment";
 import EditDialog from "./EditDialog.vue";
+import draggable from "vuedraggable";
 export default {
-  components: { EditDialog },
+  components: { EditDialog, draggable },
   data() {
     return {
       todoItem: "",
