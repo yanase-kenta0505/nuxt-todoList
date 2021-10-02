@@ -40,32 +40,19 @@ export const actions = {
         ids: ids
       });
     });
-
-    // 追加や削除があったときにすべてのデータを取得する場合
-    // .onSnapshot(snapshot => {
-    // if () {
-    // snapshot.forEach(doc => {
-    // ;
-    // });
-    // context.commit(, );
-    // } else {
-    // // 追加や変更があったときに変更差分のデータのみ取得
-    // snapshot.docChanges().forEach(change => {
-    // if (change.doc.data().timestamp === null) {
-    // return;
-    // } else {
-    // context.commit(, );
-    // }
-    // });
-    // }
-    // });
   },
   update(context, updateItem) {
-    // console.log(updateItem);
-    // console.log(todoRef.doc(updateItem.id));
-    // console.log(updateItem.done);
     todoRef.doc(updateItem.id).update({
       done: !updateItem.done
+    });
+  },
+  edit(context, editItem) {
+    // console.log(editItem.id);
+    // console.log(editItem.todoText);
+    // console.log(editItem.dedline);
+    todoRef.doc(editItem.id).update({
+      todo: editItem.todoText,
+      date: editItem.dedline
     });
   },
   deleteItem(context, id) {
@@ -78,15 +65,11 @@ export const mutations = {
     state.todos = [];
     state.ids = [];
     stateItem.todos.forEach(todo => {
-      // console.log(todo);
       state.todos.push(todo);
     });
 
     stateItem.ids.forEach(id => {
-      // console.log(id);
       state.ids.push(id);
     });
-    // console.log(state.todos);
-    // console.log(state.ids);
   }
 };
