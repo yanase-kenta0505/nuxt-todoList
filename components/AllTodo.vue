@@ -39,16 +39,16 @@
           <v-btn color="#7986" id="addBtn" @click="addTodo">Add</v-btn>
         </div>
       </div>
-      <draggable tag="div" id="todo-cards" class="mt-5 d-flex flex-wrap">
+      <draggable tag="div" id="todo-cards" class="mt-5 d-flex flex-wrap" v-model="draggableTodos">
         <v-card
-          v-for="(todo, index) in todos"
+          v-for="(todo, index) in draggableTodos"
           :key="todo.todo"
           class="mb-5 d-flex ml-10"
           width="40%"
           max-width="380px"
           min-width="300px"
           height="50px"
-          :class="{ done: todos[index].done === true }"
+          :class="{ done: draggableTodos[index].done === true }"
           id="todoItem"
         >
           <v-checkbox
@@ -63,6 +63,10 @@
           <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
         </v-card>
       </draggable>
+      <div class="d-flex">
+        <pre>{{draggableTodos}}</pre>
+        <pre>{{checked}}</pre>
+      </div>
     </v-card>
   </v-app>
 </template>
@@ -84,7 +88,8 @@ export default {
       menu: false,
       modal: false,
       menu2: false,
-      checked: []
+      checked: [],
+      draggableTodos: []
     };
   },
 
@@ -96,17 +101,26 @@ export default {
       return this.$store.getters["db/ids"];
     }
   },
+  watch: {
+    todos() {
+      const draggableTodos = [];
+      console.log(this.todos);
+      this.todos.forEach(todo => {
+        draggableTodos.push(todo);
+      });
+      this.draggableTodos = draggableTodos;
+    },
+    draggableTodos() {
+      const checked = [];
+      this.draggableTodos.forEach(todo => {
+        checked.push(todo.done);
+      });
+      this.checked = checked;
+    }
+  },
 
   created() {
     this.$store.dispatch("db/snapshot");
-    const checked = [];
-    this.todos.forEach(todo => {
-      // console.log(todo.done);
-      checked.push(todo.done);
-    });
-    // console.log(checked);
-    this.checked = checked;
-    console.log(this.checked);
   },
 
   methods: {
