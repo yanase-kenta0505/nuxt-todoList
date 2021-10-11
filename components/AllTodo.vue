@@ -39,7 +39,12 @@
           <v-btn color="#7986" id="addBtn" @click="addTodo">Add</v-btn>
         </div>
       </div>
-      <draggable tag="div" id="todo-cards" class="mt-5 d-flex flex-wrap" v-model="draggableTodos">
+      <draggable
+        tag="div"
+        id="todo-cards"
+        class="mt-5 d-flex flex-wrap"
+        v-model="draggableTodos"
+      >
         <v-card
           v-for="(todo, index) in draggableTodos"
           :key="todo.todo"
@@ -64,8 +69,8 @@
         </v-card>
       </draggable>
       <div class="d-flex">
-        <pre>{{draggableTodos}}</pre>
-        <pre>{{checked}}</pre>
+        <pre>{{ draggableTodos }}</pre>
+        <pre>{{ checked }}</pre>
       </div>
     </v-card>
   </v-app>
@@ -96,15 +101,12 @@ export default {
   computed: {
     todos() {
       return this.$store.getters["db/todos"];
-    },
-    ids() {
-      return this.$store.getters["db/ids"];
     }
   },
   watch: {
     todos() {
       const draggableTodos = [];
-      console.log(this.todos);
+      // console.log(this.todos);
       this.todos.forEach(todo => {
         draggableTodos.push(todo);
       });
@@ -116,6 +118,10 @@ export default {
         checked.push(todo.done);
       });
       this.checked = checked;
+      localStorage.setItem(
+        "draggableTodos",
+        JSON.stringify(this.draggableTodos)
+      );
     }
   },
 
@@ -125,10 +131,6 @@ export default {
 
   methods: {
     addTodo() {
-      // console.log(this.todoItem);
-      // console.log(this.date);
-      // console.log(moment(this.date).format("YYYY-MM-DD"));
-      // console.log(moment(Date.now()).format("YYYY-MM-DD"));
       if (this.todoItem === "") {
         return;
       } else {
@@ -142,15 +144,15 @@ export default {
       this.date = moment(Date.now()).format("YYYY-MM-DD");
     },
     update(index) {
-      console.log(this.checked);
+      // console.log(this.checked);
       // console.log(this.todos[index].done);
       this.$store.dispatch("db/update", {
-        id: this.ids[index],
-        done: this.todos[index].done
+        id: this.draggableTodos[index].id,
+        done: this.draggableTodos[index].done
       });
     },
     deleteItem(index) {
-      this.$store.dispatch("db/deleteItem", this.ids[index]);
+      this.$store.dispatch("db/deleteItem", this.draggableTodos[index].id);
     }
   }
 };
