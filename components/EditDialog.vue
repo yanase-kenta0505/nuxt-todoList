@@ -107,9 +107,9 @@ export default {
     changeTodo() {
       // console.log(this.date);
       // console.log(this.editTodoItem);
-      console.log(this.changedText);
+      // console.log(this.changedText);
       this.$store.dispatch("db/edit", {
-        id: this.$store.getters["db/ids"][this.koreageru],
+        id: this.$store.getters["db/todos"][this.koreageru].id,
         todoText: this.changedText ? this.editTodoItem : this.selectedTodoText,
         dedline: this.date
       });

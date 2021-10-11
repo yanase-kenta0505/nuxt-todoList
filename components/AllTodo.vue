@@ -39,16 +39,21 @@
           <v-btn color="#7986" id="addBtn" @click="addTodo">Add</v-btn>
         </div>
       </div>
-      <draggable tag="div" id="todo-cards" class="mt-5 d-flex flex-wrap">
+      <draggable
+        tag="div"
+        id="todo-cards"
+        class="mt-5 d-flex flex-wrap"
+        v-model="draggableTodos"
+      >
         <v-card
-          v-for="(todo, index) in todos"
+          v-for="(todo, index) in draggableTodos"
           :key="todo.todo"
           class="mb-5 d-flex ml-10"
           width="40%"
           max-width="380px"
           min-width="300px"
           height="50px"
-          :class="{ done: todos[index].done === true }"
+          :class="{ done: draggableTodos[index].done === true }"
           id="todoItem"
         >
           <v-checkbox
@@ -63,6 +68,10 @@
           <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
         </v-card>
       </draggable>
+      <div class="d-flex">
+        <pre>{{ draggableTodos }}</pre>
+        <pre>{{ checked }}</pre>
+      </div>
     </v-card>
   </v-app>
 </template>
@@ -84,37 +93,44 @@ export default {
       menu: false,
       modal: false,
       menu2: false,
-      checked: []
+      checked: [],
+      draggableTodos: []
     };
   },
 
   computed: {
     todos() {
       return this.$store.getters["db/todos"];
+    }
+  },
+  watch: {
+    todos() {
+      const draggableTodos = [];
+      // console.log(this.todos);
+      this.todos.forEach(todo => {
+        draggableTodos.push(todo);
+      });
+      this.draggableTodos = draggableTodos;
     },
-    ids() {
-      return this.$store.getters["db/ids"];
+    draggableTodos() {
+      const checked = [];
+      this.draggableTodos.forEach(todo => {
+        checked.push(todo.done);
+      });
+      this.checked = checked;
+      localStorage.setItem(
+        "draggableTodos",
+        JSON.stringify(this.draggableTodos)
+      );
     }
   },
 
   created() {
     this.$store.dispatch("db/snapshot");
-    const checked = [];
-    this.todos.forEach(todo => {
-      // console.log(todo.done);
-      checked.push(todo.done);
-    });
-    // console.log(checked);
-    this.checked = checked;
-    console.log(this.checked);
   },
 
   methods: {
     addTodo() {
-      // console.log(this.todoItem);
-      // console.log(this.date);
-      // console.log(moment(this.date).format("YYYY-MM-DD"));
-      // console.log(moment(Date.now()).format("YYYY-MM-DD"));
       if (this.todoItem === "") {
         return;
       } else {
@@ -128,15 +144,15 @@ export default {
       this.date = moment(Date.now()).format("YYYY-MM-DD");
     },
     update(index) {
-      console.log(this.checked);
+      // console.log(this.checked);
       // console.log(this.todos[index].done);
       this.$store.dispatch("db/update", {
-        id: this.ids[index],
-        done: this.todos[index].done
+        id: this.draggableTodos[index].id,
+        done: this.draggableTodos[index].done
       });
     },
     deleteItem(index) {
-      this.$store.dispatch("db/deleteItem", this.ids[index]);
+      this.$store.dispatch("db/deleteItem", this.draggableTodos[index].id);
     }
   }
 };
