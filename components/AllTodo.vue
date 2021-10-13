@@ -44,6 +44,7 @@
         id="todo-cards"
         class="mt-5 d-flex flex-wrap"
         v-model="draggableTodos"
+        :options="{delay:100, animation:300, handle:'#drag'}"
       >
         <v-card
           v-for="(todo, index) in draggableTodos"
@@ -56,6 +57,7 @@
           :class="{ done: draggableTodos[index].done === true }"
           id="todoItem"
         >
+          <v-icon id="drag" class="ml-2 mr-5">mdi-drag</v-icon>
           <v-checkbox
             class="check mr-5 ml-2"
             @click="update(index)"
@@ -68,10 +70,6 @@
           <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
         </v-card>
       </draggable>
-      <div class="d-flex">
-        <pre>{{ draggableTodos }}</pre>
-        <pre>{{ checked }}</pre>
-      </div>
     </v-card>
   </v-app>
 </template>
@@ -215,5 +213,9 @@ export default {
   position: absolute;
   right: 50px;
   top: 10px;
+}
+
+#drag{
+  cursor: grab;
 }
 </style>
