@@ -59,7 +59,7 @@ export const actions = {
             });
             b.push(a);
           }
-          console.log(b);
+          // console.log(b);
           context.commit("replaceTodos", b);
         } else {
           //  console.log(unmatchedTodo)
