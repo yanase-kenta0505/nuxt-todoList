@@ -33,7 +33,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     "@nuxtjs/vuetify",
-    "@nuxtjs/moment"
+    "@nuxtjs/moment",
+    'nuxt-animejs'
   ],
   moment: {
     // ここにオプションが記述できる
@@ -41,7 +42,13 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/dotenv"],
+  modules: ["@nuxtjs/dotenv",'nuxt-webfontloader'],
+
+  webfontloader: {
+    google: {
+        families: ["Abril Fatface"] 
+    }
+},
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
