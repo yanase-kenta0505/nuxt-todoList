@@ -26,9 +26,10 @@
 
         <template v-slot:extension>
           <v-tabs align-with-title>
-            <v-tab>All</v-tab>
-            <v-tab>Incomplete</v-tab>
-            <v-tab>complete</v-tab>
+            <v-tab @click="tabItem='all'">All</v-tab>
+            <v-tab @click="tabItem='incomplete'">Incomplete</v-tab>
+            <v-tab @click="tabItem='complete'">complete</v-tab>
+            <!-- <v-tab v-for="tab in tabs" :key="tab">{{tab}}</v-tab> -->
           </v-tabs>
         </template>
 
@@ -64,8 +65,8 @@
         </div>
       </v-app-bar>
 
-      <!-- <all-todo /> -->
-      <incomplete />
+      <all-todo v-if="tabItem === 'all'" />
+      <incomplete v-if="tabItem === 'incomplete'" />
 
       <v-navigation-drawer v-model="drawer" absolute bottom temporary>
         <v-list-item>
@@ -129,10 +130,15 @@ export default {
         { title: "Private", icon: "mdi-human-male" },
         { title: "Business", icon: "mdi-domain" },
         { title: "Home", icon: "mdi-human-male-female-child" }
-      ]
+      ],
+      tabItem: 'all',
+      // tabs:['All','Incomplete','complete']
     };
   },
   watch: {
+    // tabItem(){
+    //   console.log(this.tabItem)
+    // },
     group() {
       this.drawer = false;
     }
