@@ -64,7 +64,8 @@
         </div>
       </v-app-bar>
 
-      <all-todo />
+      <!-- <all-todo /> -->
+      <incomplete />
 
       <v-navigation-drawer v-model="drawer" absolute bottom temporary>
         <v-list-item>
@@ -112,8 +113,9 @@
 
 <script>
 import AllTodo from "~/components/AllTodo.vue";
+import Incomplete from "~/components/IncompleteTodo.vue";
 export default {
-  components: { AllTodo },
+  components: { AllTodo, Incomplete },
   data() {
     return {
       drawer: false,
