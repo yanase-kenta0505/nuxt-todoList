@@ -35,34 +35,6 @@
 
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
-
-        <div class="d-flex flex-column" id="dialog-box">
-          <v-btn icon @click="dialogStateChange" class="ml-auto">
-            <v-icon v-show="!dialogState">mdi-dots-vertical</v-icon>
-            <v-icon v-show="dialogState">mdi-close-thick</v-icon>
-          </v-btn>
-
-          <v-card v-show="dialogState" max-width="200" tile>
-            <v-list dense flat>
-              <v-subheader>MENU</v-subheader>
-              <v-list-item-group color="primary">
-                <v-list-item v-for="(item, i) in items" :key="i">
-                  <v-list-item-icon>
-                    <v-icon v-text="item.icon"></v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <!-- <v-list-item-title v-text="items[0].text" @click="hello"></v-list-item-title> -->
-
-                    <v-list-item-title
-                      v-text="item.text"
-                      @click="event(i)"
-                    ></v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-card>
-        </div>
       </v-app-bar>
 
       <all-todo v-if="tabItem === 'all'" />
@@ -86,17 +58,13 @@
         <v-divider></v-divider>
 
         <v-list dense>
-          <v-list-item
-            v-for="draweritem in drawerItems"
-            :key="draweritem.title"
-            link
-          >
+          <v-list-item link @click="signOut">
             <v-list-item-icon>
-              <v-icon>{{ draweritem.icon }}</v-icon>
+              <v-icon>{{ drawerItems.icon }}</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title>{{ draweritem.title }}</v-list-item-title>
+              <v-list-item-title>{{ drawerItems.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -107,7 +75,6 @@
         class="overflow-y-auto"
         max-height="600"
       >
-        
       </v-sheet>
     </v-card>
   </v-app>
@@ -128,11 +95,7 @@ export default {
         { text: "LOGOUT", icon: "mdi-logout" },
         { text: "INFOMATION", icon: "mdi-phone" }
       ],
-      drawerItems: [
-        { title: "Private", icon: "mdi-human-male" },
-        { title: "Business", icon: "mdi-domain" },
-        { title: "Home", icon: "mdi-human-male-female-child" }
-      ],
+      drawerItems: { title: "LOGOUT", icon: "mdi-logout" },
       tabItem: "all"
       // tabs:['All','Incomplete','complete']
     };
@@ -146,17 +109,15 @@ export default {
     }
   },
   methods: {
+    // foo(){
+    //   alert('hello')
+    // },
     dialogStateChange() {
       this.dialogState = !this.dialogState;
     },
-    event(i) {
-      console.log(i);
-      if (i === 0) {
-        console.log(this.$router);
-        this.$store.dispatch("signOut", this.$router);
-      } else {
-        console.log("hello");
-      }
+    signOut() {
+      console.log(this.$router);
+      this.$store.dispatch("signOut", this.$router);
     }
   }
 };
