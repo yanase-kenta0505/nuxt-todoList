@@ -51,7 +51,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{}}</v-list-item-title>
+            <v-list-item-title>{{uid | lengthLimit}}様</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -96,7 +96,8 @@ export default {
         { text: "INFOMATION", icon: "mdi-phone" }
       ],
       drawerItems: { title: "LOGOUT", icon: "mdi-logout" },
-      tabItem: "all"
+      tabItem: "all",
+      uid:""
       // tabs:['All','Incomplete','complete']
     };
   },
@@ -118,6 +119,14 @@ export default {
     signOut() {
       console.log(this.$router);
       this.$store.dispatch("signOut", this.$router);
+    }
+  },
+  created(){
+   this.uid = this.$store.state.uid
+  },
+  filters:{
+    lengthLimit(uid){
+      return uid.length > 8 ? uid.slice(0, 8) + "…" : uid;
     }
   }
 };

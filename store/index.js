@@ -23,6 +23,7 @@ export const actions = {
       .auth()
       .signInWithEmailAndPassword(key.mail, key.password)
       .then(res => {
+        console.log(res)
         key.router.push({ name: "users-id", params: { id: this.state.uid } });
       })
       .catch(() => {
