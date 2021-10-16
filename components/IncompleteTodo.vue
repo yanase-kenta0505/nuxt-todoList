@@ -42,34 +42,35 @@
       <draggable
         tag="div"
         id="todo-cards"
-        class="mt-5 d-flex flex-wrap"
+        class="mt-5 "
         v-model="draggableTodos"
-        :options="{delay:100, animation:300, handle:'#drag'}"
+        :options="{ delay: 100, animation: 300, handle: '#drag' }"
       >
-        <v-card
-          v-for="(todo, index) in draggableTodos"
-          :key="todo.todo"
-          class="mb-5 d-flex ml-10"
-          width="40%"
-          max-width="380px"
-          min-width="300px"
-          height="50px"
-          :class="{ done: draggableTodos[index].done === true }"
-          id="todoItem"
-          
-        >
-          <v-icon id="drag" class="ml-2 mr-5">mdi-drag</v-icon>
-          <v-checkbox
-            class="check mr-5 ml-2"
-            @click="update(index)"
-            v-model="checked[index]"
-          ></v-checkbox>
-          <p id="todo-card-text">
-            [{{ todo.todo }}]<span class="ml-5">{{ todo.date }}</span>
-          </p>
-          <edit-dialog id="editDialog" :koreageru="index" />
-          <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
-        </v-card>
+        <transition-group name="fade" class="d-flex flex-wrap">
+          <v-card
+            v-for="(todo, index) in draggableTodos"
+            :key="todo.todo"
+            class="mb-5 d-flex ml-10"
+            width="40%"
+            max-width="380px"
+            min-width="300px"
+            height="50px"
+            :class="{ done: draggableTodos[index].done === true }"
+            id="todoItem"
+          >
+            <v-icon id="drag" class="ml-2 mr-5">mdi-drag</v-icon>
+            <v-checkbox
+              class="check mr-5 ml-2"
+              @click="update(index)"
+              v-model="checked[index]"
+            ></v-checkbox>
+            <p id="todo-card-text">
+              [{{ todo.todo }}]<span class="ml-5">{{ todo.date }}</span>
+            </p>
+            <edit-dialog id="editDialog" :koreageru="index" />
+            <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
+          </v-card>
+        </transition-group>
       </draggable>
     </v-card>
   </v-app>
@@ -158,9 +159,29 @@ export default {
 </script>
 
 <style scoped>
+.fade-enter {
+  transform: translateX(-150px);
+}
+.fade-enter-active {
+  transition: transform 1s;
+}
+.fade-enter-to {
+  transform: translateX(0);
+}
 #todo-container {
   /* background-color: pink; */
   padding-top: 250px;
+}
+.fade-leave {
+  transform: translateX(0);
+  opacity: 1;
+}
+.fade-leave-active {
+  transition: transform 1s, opacity 1s;
+}
+.fade-leave-to {
+  transform: translateX(200px);
+  opacity: 0;
 }
 
 /* #todo-box {
@@ -176,10 +197,6 @@ export default {
 #addBtn {
   margin-top: 10px;
   margin-left: 20px;
-}
-
-#todo-cards {
-  widows: 80%;
 }
 
 #todo-card-text {
@@ -216,7 +233,7 @@ export default {
   top: 10px;
 }
 
-#drag{
+#drag {
   cursor: grab;
 }
 </style>
