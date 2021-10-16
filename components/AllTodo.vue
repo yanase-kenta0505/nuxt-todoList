@@ -67,7 +67,11 @@
             <p id="todo-card-text">
               [{{ todo.todo }}]<span class="ml-5">{{ todo.date }}</span>
             </p>
-            <edit-dialog id="editDialog" :koreageru="index" />
+            <edit-dialog
+              id="editDialog"
+              :koreageru="index"
+              v-show="!draggableTodos[index].done === true"
+            />
             <v-icon id="closeIcon" @click="deleteItem(index)">mdi-close</v-icon>
           </v-card>
         </transition-group>
