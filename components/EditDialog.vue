@@ -88,9 +88,7 @@ export default {
       editTodoItem: ""
     };
   },
-  created() {
-    // console.log(this.editTodoItem);
-  },
+  
   computed: {
     selectedTodoDate() {
       return this.$store.getters["db/todos"][this.koreageru].date;
@@ -111,7 +109,8 @@ export default {
       this.$store.dispatch("db/edit", {
         id: this.$store.getters["db/todos"][this.koreageru].id,
         todoText: this.changedText ? this.editTodoItem : this.selectedTodoText,
-        dedline: this.date
+        dedline: this.date,
+        uid: this.$store.state.uid
       });
       this.editTodoItem = "";
       this.changedDate = false;
