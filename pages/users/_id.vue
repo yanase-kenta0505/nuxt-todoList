@@ -26,9 +26,9 @@
 
         <template v-slot:extension>
           <v-tabs align-with-title>
-            <v-tab @click="tabItem='all'">All</v-tab>
-            <v-tab @click="tabItem='incomplete'">Incomplete</v-tab>
-            <v-tab @click="tabItem='complete'">complete</v-tab>
+            <v-tab @click="tabItem = 'all'">All</v-tab>
+            <v-tab @click="tabItem = 'incomplete'">Incomplete</v-tab>
+            <v-tab @click="tabItem = 'complete'">complete</v-tab>
             <!-- <v-tab v-for="tab in tabs" :key="tab">{{tab}}</v-tab> -->
           </v-tabs>
         </template>
@@ -67,6 +67,7 @@
 
       <all-todo v-if="tabItem === 'all'" />
       <incomplete v-if="tabItem === 'incomplete'" />
+      <complete v-if="tabItem === 'complete'" />
 
       <v-navigation-drawer v-model="drawer" absolute bottom temporary>
         <v-list-item>
@@ -115,8 +116,9 @@
 <script>
 import AllTodo from "~/components/AllTodo.vue";
 import Incomplete from "~/components/IncompleteTodo.vue";
+import Complete from "~/components/CompleteTodo.vue";
 export default {
-  components: { AllTodo, Incomplete },
+  components: { AllTodo, Incomplete, Complete },
   data() {
     return {
       drawer: false,
@@ -131,7 +133,7 @@ export default {
         { title: "Business", icon: "mdi-domain" },
         { title: "Home", icon: "mdi-human-male-female-child" }
       ],
-      tabItem: 'all',
+      tabItem: "all"
       // tabs:['All','Incomplete','complete']
     };
   },
