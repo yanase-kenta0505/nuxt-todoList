@@ -4,7 +4,8 @@ export default function({ store, route, redirect }) {
     store.state.login === false &&
     route.name !== "login" &&
     // 例外として表示可能なページを指定
-    route.fullPath !== "/signUp"
+    route.fullPath !== "/signUp" &&
+    route.fullPath !== "/"
   ) {
     redirect("/login");
   }
