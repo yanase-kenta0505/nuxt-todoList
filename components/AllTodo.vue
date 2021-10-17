@@ -123,14 +123,14 @@ export default {
       });
       this.checked = checked;
       localStorage.setItem(
-        "draggableTodos",
+        this.$store.state.uid,
         JSON.stringify(this.draggableTodos)
       );
     }
   },
 
   created() {
-    this.$store.dispatch("db/snapshot");
+    this.$store.dispatch("db/snapshot", this.$store.state.uid);
   },
 
   methods: {
@@ -138,10 +138,12 @@ export default {
       if (this.todoItem === "") {
         return;
       } else {
+        console.log(this.$store.state.uid);
         this.$store.dispatch("db/addTodo", {
           todoItem: this.todoItem,
           date: this.date,
-          done: this.done
+          done: this.done,
+          uid: this.$store.state.uid
         });
       }
       this.todoItem = "";
@@ -152,11 +154,15 @@ export default {
       // console.log(this.todos[index].done);
       this.$store.dispatch("db/update", {
         id: this.draggableTodos[index].id,
-        done: this.draggableTodos[index].done
+        done: this.draggableTodos[index].done,
+        uid: this.$store.state.uid
       });
     },
     deleteItem(index) {
-      this.$store.dispatch("db/deleteItem", this.draggableTodos[index].id);
+      this.$store.dispatch("db/deleteItem", {
+        id: this.draggableTodos[index].id,
+        uid: this.$store.state.uid
+      });
     }
   }
 };
