@@ -37,7 +37,7 @@ export const actions = {
       .then(() => {
         console.log("signOut");
         context.commit("signOut");
-        router.push("/login");
+        router.push("/");
       });
   },
   register(context, key) {
@@ -47,7 +47,7 @@ export const actions = {
       .auth()
       .createUserWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-        key.router.push("../users/login");
+        key.router.push("/login");
       })
       .catch(error => {
         console.log(error);
