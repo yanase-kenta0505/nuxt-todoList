@@ -12,7 +12,7 @@ export const actions = {
   stateChange(context) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log("stateChange");
+        // console.log("stateChange");
         context.commit("login", user.uid);
       } else {
         context.commit("signOut");
@@ -24,11 +24,16 @@ export const actions = {
       .auth()
       .signInWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-        console.log(res.user.uid);
-        context.commit("changeUid", {
-          uid:res.user.uid,
-          router:key.router
-        });
+        if (!res.user.emailVerified) {
+          alert("メールアドレスの認証をしてください。");
+          return;
+        } else {
+          console.log(res.user.uid);
+          context.commit("changeUid", {
+            uid: res.user.uid,
+            router: key.router
+          });
+        }
         // key.router.push({ name: "users-id", params: { id: this.state.uid } });
       })
       .catch(() => {
@@ -52,7 +57,13 @@ export const actions = {
       .auth()
       .createUserWithEmailAndPassword(key.mail, key.password)
       .then(res => {
+        console.log(res.user);
         key.router.push("/login");
+        res.user.sendEmailVerification().then(() => {
+          alert(
+            "登録のメールアドレスに確認用のメールをお送りしました。確認してください。"
+          );
+        });
       })
       .catch(error => {
         console.log(error);
@@ -63,7 +74,7 @@ export const actions = {
 
 export const mutations = {
   login(state, uid) {
-    console.log(state.login);
+    // console.log(state.login);
     state.login = true;
     state.uid = uid;
   },
