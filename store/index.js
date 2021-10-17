@@ -12,6 +12,7 @@ export const actions = {
   stateChange(context) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("stateChange");
         context.commit("login", user.uid);
       } else {
         context.commit("signOut");
@@ -23,8 +24,12 @@ export const actions = {
       .auth()
       .signInWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-        console.log(res)
-        key.router.push({ name: "users-id", params: { id: this.state.uid } });
+        console.log(res.user.uid);
+        context.commit("changeUid", {
+          uid:res.user.uid,
+          router:key.router
+        });
+        // key.router.push({ name: "users-id", params: { id: this.state.uid } });
       })
       .catch(() => {
         alert("新規登録をしてください。");
@@ -67,6 +72,10 @@ export const mutations = {
   },
   error(state, error) {
     state.errorMessage = error;
+  },
+  changeUid(state, item) {
+    state.uid = item.uid;
+    item.router.push({ name: "users-id", params: { id: state.uid } });
   }
   // blockRegister(state, key) {
   //   state.mails.push(key.mail);

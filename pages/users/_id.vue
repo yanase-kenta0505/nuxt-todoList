@@ -124,6 +124,7 @@ export default {
   created(){
    this.uid = this.$store.state.uid
   },
+ 
   filters:{
     lengthLimit(uid){
       return uid.length > 8 ? uid.slice(0, 8) + "…" : uid;
