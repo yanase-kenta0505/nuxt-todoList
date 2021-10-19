@@ -24,18 +24,18 @@ export const actions = {
       .auth()
       .signInWithEmailAndPassword(key.mail, key.password)
       .then(res => {
-        // if (!res.user.emailVerified) {
-        //   alert("メールアドレスの認証をしてください。");
-        //   return;
-        // } else {
+        if (!res.user.emailVerified) {
+          alert("メールアドレスの認証をしてください。");
+          return;
+        } else {
           console.log(res.user.uid);
           context.commit("changeUid", {
             uid: res.user.uid,
             router: key.router
           });
-        // }
+        }
 
-        // key.router.push({ name: "users-id", params: { id: this.state.uid } });
+        key.router.push({ name: "users-id", params: { id: this.state.uid } });
       })
       .catch(() => {
         alert("新規登録をしてください。");
@@ -60,11 +60,11 @@ export const actions = {
       .then(res => {
         console.log(res.user);
         key.router.push("/login");
-        // res.user.sendEmailVerification().then(() => {
-        //   alert(
-        //     "登録のメールアドレスに確認用のメールをお送りしました。確認してください。"
-        //   );
-        // });
+        res.user.sendEmailVerification().then(() => {
+          alert(
+            "登録のメールアドレスに確認用のメールをお送りしました。確認してください。"
+          );
+        });
       })
       .catch(error => {
         console.log(error);
@@ -89,11 +89,7 @@ export const mutations = {
     state.uid = item.uid;
     item.router.push({ name: "users-id", params: { id: state.uid } });
   }
-  // blockRegister(state, key) {
-  //   state.mails.push(key.mail);
-  //   state.passwords.push(key.password);
-  //   console.log(state.mails, state.passwords);
-  // }
+  
 };
 
 export const getters = {
