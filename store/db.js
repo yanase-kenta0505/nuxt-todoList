@@ -40,14 +40,14 @@ export const actions = {
           todos.push(data);
         });
         if (
-          JSON.parse(localStorage.getItem("draggableTodos")) === null ||
-          JSON.parse(localStorage.getItem("draggableTodos")).length === 0
+          JSON.parse(localStorage.getItem(uid)) === null ||
+          JSON.parse(localStorage.getItem(uid)).length === 0
         ) {
           // console.log("foo");
           context.commit("getItem", todos);
         } else {
           // console.log("hoo");
-          const localData = JSON.parse(localStorage.getItem("draggableTodos"));
+          const localData = JSON.parse(localStorage.getItem(uid));
           const filteredTodos = localData.filter(x =>
             todos.map(t => t.todo).includes(x.todo)
           );
